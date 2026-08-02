@@ -5,7 +5,7 @@ import subprocess
 import sys
 import urllib.request
 
-API_KEY = "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"
+API_KEY = "Enter OpenRouterAI API KEY By Urself"
 BASE_URL = "https://openrouter.ai/api/v1"
 MODEL = "poolside/laguna-s-2.1:free"
 
