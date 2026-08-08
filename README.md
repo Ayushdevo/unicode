@@ -1,54 +1,136 @@
+<div align="center">
+
 ⚡ Nova Coding Agent
 
-A lightweight AI coding agent with a Streamlit web frontend, powered by OpenRouter.
+A lightweight AI coding agent with a beautiful Streamlit interface
 
-Nova can chat with you about code and use tools to inspect, create, edit, search, and run files on the local machine.
+Powered by OpenRouter · Tool Calling · Local Development Tools
+
+<br>
+
+
+
+</div>
+
+🧠 What is Nova?
+
+Nova is a small, practical AI coding agent designed to help you work directly with your local projects.
+
+Instead of only generating code in a chat, Nova can use tools to read files, create files, modify existing code, search a project, and execute shell commands.
+
+The project combines a simple Streamlit frontend with OpenRouter's Chat Completions API and function/tool calling.
 
 ✨ Features
 
-🤖 OpenRouter-powered AI coding assistant
+Feature
 
-💬 Streamlit chat interface
+Description
 
-📂 Read files with read_file
+🤖 AI Coding Assistant
 
-✍️ Create/overwrite files with write_file
+Chat with an OpenRouter-powered coding model
 
-🛠️ Replace text with edit_file
+💬 Web UI
 
-🔎 Search files with grep
+Clean browser-based interface built with Streamlit
 
-💻 Execute shell commands with bash
+📖 Read Files
 
-🧠 Plan mode for planning without tool execution
+Inspect local source files with read_file
 
-🔐 API key entered securely through the sidebar or environment variable
+✍️ Write Files
 
-⚙️ Select the OpenRouter model from the UI
+Create or overwrite files with write_file
 
-🧹 Clear conversation history
+🛠️ Edit Files
+
+Replace exact text using edit_file
+
+🔎 Project Search
+
+Search files recursively with grep
+
+💻 Terminal Access
+
+Execute shell commands through bash
+
+🧠 Plan Mode
+
+Ask Nova for a plan without executing tools
+
+🔐 Secret Input
+
+Enter your OpenRouter key through the UI
+
+⚙️ Model Selection
+
+Change the model directly from the sidebar
+
+🧹 Chat Reset
+
+Clear the current conversation instantly
+
+🏗️ Architecture
+
+┌──────────────────────────────┐
+│       Streamlit Frontend     │
+│                              │
+│  Chat · Settings · Plan Mode │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│        Nova Agent Loop       │
+│                              │
+│  Prompt → Model → Tool Call  │
+│             ↑        │       │
+│             └────────┘       │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│         OpenRouter API       │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│        Local Tool Layer      │
+│                              │
+│ read_file · write_file       │
+│ edit_file · grep · bash      │
+└──────────────────────────────┘
 
 📁 Project Structure
 
 nova-coding-agent/
-├── main.py
-├── requirements.txt
-└── README.md
+│
+├── ⚡ main.py
+│   └── Streamlit frontend + agent logic
+│
+├── 📦 requirements.txt
+│   └── Python dependencies
+│
+└── 📘 README.md
+    └── Project documentation
 
-🚀 Installation
+🚀 Quick Start
 
-1. Clone or download the project
+1. Install Python
 
-Place main.py, requirements.txt, and README.md in the same directory.
+Use Python 3.9 or newer.
+
+Check your version:
+
+python --version
 
 2. Create a virtual environment
 
-Windows:
+Windows
 
 python -m venv .venv
 .venv\Scripts\activate
 
-Linux/macOS:
+Linux / macOS
 
 python3 -m venv .venv
 source .venv/bin/activate
@@ -57,131 +139,285 @@ source .venv/bin/activate
 
 pip install -r requirements.txt
 
-🔑 OpenRouter API Key
+4. Start Nova
 
-You can enter your API key directly in the Streamlit sidebar.
+streamlit run main.py
 
-For better security, set it as an environment variable.
+Open the URL displayed by Streamlit, usually:
+
+http://localhost:8501
+
+🔑 Configure OpenRouter
+
+Nova requires an OpenRouter API key.
+
+Option A — Use the sidebar
+
+Start the application and paste your key into:
+
+OpenRouter API Key
+
+The field is hidden as a password input.
+
+Option B — Environment variable
 
 Windows PowerShell
 
 $env:OPENROUTER_API_KEY="your_api_key_here"
 
-Linux/macOS
+Linux / macOS
 
 export OPENROUTER_API_KEY="your_api_key_here"
 
-Never commit your API key to GitHub.
+⚠️ Never commit your API key to GitHub.
 
-▶️ Run
+🤖 Default Model
 
-Start the application with:
+The current default model is:
+
+poolside/laguna-s-2.1:free
+
+You can change the model directly from the Streamlit sidebar.
+
+Nova communicates through:
+
+https://openrouter.ai/api/v1
+
+🛠️ Available Tools
+
+Nova can request the following tools from the model:
+
+📖 read_file
+
+Reads a UTF-8 text file.
+
+read_file(path)
+
+Example request:
+
+Read app.py and explain the main functions.
+
+✍️ write_file
+
+Creates or overwrites a file.
+
+write_file(path, content)
+
+Example:
+
+Create calculator.py with a command-line calculator.
+
+🛠️ edit_file
+
+Replaces an exact string inside an existing file.
+
+edit_file(path, old_string, new_string)
+
+Example:
+
+Add error handling to the API request in app.py.
+
+🔎 grep
+
+Searches recursively through files.
+
+grep(pattern, path)
+
+Example:
+
+Find every TODO in this project.
+
+💻 bash
+
+Runs a shell command.
+
+bash(command)
+
+Example:
+
+Run the Python tests and show me the failures.
+
+💡 Example Prompts
+
+Try these after launching Nova:
+
+Read main.py and explain how the agent loop works.
+
+Create a Python REST API in app.py.
+
+Find all TODO comments in this project.
+
+Inspect the project and fix the obvious bugs.
+
+Run the tests and explain what failed.
+
+Create a requirements.txt for this project.
+
+🧠 Plan Mode
+
+Plan mode is useful when you want Nova to think through an implementation before changing anything.
+
+Enable:
+
+Plan mode
+
+from the sidebar.
+
+Nova will provide a short implementation plan and will not execute tools while plan mode is enabled.
+
+Example:
+
+Build authentication for this application with JWT.
+
+Nova can first outline:
+
+1. Add authentication dependencies
+2. Create user model
+3. Add password hashing
+4. Add JWT generation
+5. Protect API routes
+6. Add login endpoint
+
+🔄 Agent Workflow
+
+Nova follows a simple tool-calling loop:
+
+User Prompt
+     │
+     ▼
+System Prompt
+     │
+     ▼
+OpenRouter Model
+     │
+     ├──── No tool call ────► Final Response
+     │
+     ▼
+   Tool Call
+     │
+     ▼
+Execute Local Tool
+     │
+     ▼
+Return Tool Result
+     │
+     ▼
+OpenRouter Model
+     │
+     ▼
+Final Response
+
+The agent allows up to five tool-processing iterations for a request.
+
+⚠️ Security
+
+Nova's bash tool can execute commands using the permissions of the account running Streamlit.
+
+That means you should not expose this application publicly without adding proper security controls.
+
+For production deployment, consider:
+
+🔒 Authentication
+
+🧱 Command sandboxing
+
+📁 Restricted file-system access
+
+✅ Command allowlists
+
+🔐 Secret management
+
+👤 User permission controls
+
+⏱️ Execution time limits
+
+📊 Logging and auditing
+
+Recommended rule
+
+Run Nova locally while developing. Treat shell and file-editing capabilities as privileged operations.
+
+🧪 Development
+
+To modify the application:
 
 streamlit run main.py
 
-Streamlit will provide a local URL, normally:
+After changing main.py, Streamlit normally reloads the application automatically.
 
-http://localhost:8501
+Useful checks:
 
-Open that address in your browser.
+python -m py_compile main.py
 
-🧠 How It Works
-
-The application sends the user's prompt to the OpenRouter Chat Completions API.
-
-The model can request one of Nova's tools:
-
-Tool
-
-Purpose
-
-read_file
-
-Reads a UTF-8 text file
-
-write_file
-
-Creates or overwrites a file
-
-edit_file
-
-Replaces an exact string in a file
-
-grep
-
-Searches files for matching text
-
-bash
-
-Executes a shell command
-
-The tool result is returned to the model, allowing Nova to continue the task.
-
-🛠️ Example Prompts
-
-Try prompts such as:
-
-Read main.py and explain what it does.
-
-Create a Python calculator in calculator.py.
-
-Find every occurrence of "TODO" in this project.
-
-Edit app.py and add error handling around the API request.
-
-Run the tests and tell me what failed.
-
-For planning:
-
-Design a clean architecture for this project.
-
-Then enable Plan mode in the sidebar. In plan mode, Nova provides a plan without executing tools.
-
-⚠️ Security Notice
-
-The bash tool can execute shell commands with the permissions of the user running Streamlit.
-
-Only run this application in an environment where you trust the prompts and the model being used.
-
-Do not expose the Streamlit application publicly without adding appropriate authentication and command/file restrictions.
-
-For production use, consider:
-
-Sandboxing shell commands
-
-Restricting accessible directories
-
-Adding authentication
-
-Adding command allowlists
-
-Limiting file write permissions
-
-Storing secrets outside source code
+pip check
 
 📦 Dependencies
 
-The project currently requires:
+The project currently uses:
 
 streamlit
 requests
 
-Install them with:
+Install everything with:
 
 pip install -r requirements.txt
 
-🤝 Customization
+🗺️ Possible Future Improvements
 
-You can change the default model in main.py or directly from the Streamlit sidebar.
+Some natural extensions for Nova include:
 
-The default model is:
+Streaming responses in the web UI
 
-poolside/laguna-s-2.1:free
+Markdown/code rendering improvements
 
-The OpenRouter API endpoint is:
+File explorer sidebar
 
-https://openrouter.ai/api/v1
+Syntax-highlighted editor
+
+Git integration
+
+Diff viewer before applying edits
+
+Tool execution logs
+
+Authentication
+
+Sandboxed terminal execution
+
+Project/workspace selection
+
+Persistent conversations
+
+Multi-model support
+
+Docker-based execution sandbox
+
+🤝 Contributing
+
+Contributions and improvements are welcome.
+
+A simple workflow:
+
+git clone <your-repository>
+cd nova-coding-agent
+python -m venv .venv
+pip install -r requirements.txt
+streamlit run main.py
+
+Then create a branch, make your changes, test them, and open a pull request.
 
 📄 License
 
-Add your preferred license here before publishing the project publicly.
+Add your preferred license before publishing the project publicly.
+
+For example:
+
+MIT License
+
+<div align="center">
+
+⚡ Build faster. Inspect smarter. Ship with Nova.
+
+Nova Coding Agent
+
+</div>
