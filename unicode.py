@@ -6,8 +6,7 @@ import sys
 import urllib.request
 
 API_KEY = "Enter OpenRouterAI API KEY By Urself"
-BASE_URL = "https://openrouter.ai/api/v1"
-MODEL = "poolside/laguna-s-2.1:free"
+
 
 TOOLS = [
     {
